@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!--
 /**
 * @Class Name : one_list.jsp
@@ -22,24 +24,32 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/hjs.css" />">
 <%@ include file="../header2.jsp"%>
 
-<div class="hero user-hero">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="hero-ct">
-					<h1>Edward kennedy’s profile</h1>
-					<ul class="breadcumb">
-						<li class="active"><a href="#">Home</a></li>
-						<li><span class="ion-ios-arrow-right"></span>Rated movies</li>
-					</ul>
+
+
+	<div class="hero user-hero" >
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hero-ct" >
+						<h1 style="margin-left: 0px; margin-top: -80px;">1:1 문의내역</h1>
+						<ul style="margin-left: 0px;" class="breadcumb">
+							<li class="active"><a href="index">마이페이지</a></li>
+							<li><span class="ion-ios-arrow-right"></span> 1:1 문의내역</li>
+						</ul>
+					</div>
 				</div>
+				`
 			</div>
 		</div>
 	</div>
-</div>
-<div class="buster-light">
-	<div class="page-single">
-		<div class="container">
+
+
+
+
+
+<div class="buster-light" style="heignt:100%;">
+	<div class="page-single" style="margin-top: 0px;">
+		<div class="container" style="margin-top:-180px;">
 			<div class="row ipad-width2">
 				<div class="col-md-3 col-sm-12 col-xs-12">
 					<div class="info">
@@ -53,20 +63,21 @@
 					<div class="user-information-hjs">
 						<div class="user-fav">
 							<ul>
-								<li><a href="mypage.do">마이페이지</a></li>
+								<li style="font-weight: bold;"><a style="font-size: 18px;" href="mypage">마이페이지</a></li>
 							</ul>
 
-							<ul>
+							<ul style="border-top: 1px solid #ccc; padding-top: 20px;">
 								<li>회원 정보</li>
-								<li><a href="pw_confirm.do">&nbsp;&nbsp;&nbsp;&nbsp;회원정보수정</a></li>
-								<li><a href="member_out.do">&nbsp;&nbsp;&nbsp;&nbsp;회원탈퇴</a></li>
+								<li><a href="pw_confirm">&nbsp;&nbsp;&nbsp;&nbsp;회원정보수정</a></li>
+								<li><a href="member_out">&nbsp;&nbsp;&nbsp;&nbsp;회원탈퇴</a></li>
 							</ul>
 
-							<ul>
+							<ul style="border-top: 1px solid #ccc; padding-top: 20px;">
 								<li>고객센터</li>
-								<li><a href="one_list.do">&nbsp;&nbsp;&nbsp;&nbsp;1:1
+								<li><a href="one_list">&nbsp;&nbsp;&nbsp;&nbsp;1:1
 										문의내역</a></li>
-								<li><a href="faq.do">&nbsp;&nbsp;&nbsp;&nbsp;FAQ</a></li>
+								<li><a href="faq">&nbsp;&nbsp;&nbsp;&nbsp;FAQ</a></li>
+								<li><a href="myinfo">&nbsp;&nbsp;&nbsp;&nbsp;내가 쓴 게시글</a></li>
 							</ul>
 						</div>
 					</div>
@@ -90,7 +101,7 @@
 					</div>
 					<div class="btn_t">
 						<button type="button" class="btn-check-hjs"
-							onclick="location.href='one_register.do'">1:1 문의쓰기</button>
+							onclick="location.href='one_register'">1:1 문의쓰기</button>
 					</div>
 
 					<div class="static-table-list">
@@ -114,14 +125,23 @@
 											</tr>
 										</c:when>
 										<c:otherwise>
-											<c:forEach var="qna" items="${requestScope.qnaList }">
+											<%-- <c:forEach var="qna" items="${requestScope.qnaList }">
 												<tr>
 													<td>${qna.qna_category }</td>
-													<td><a href="one_get.do?qna_no=${qna.qna_no}">${qna.qna_title}</a></td>
+													<td><a href="one_get?qna_no=${qna.qna_no}">${qna.qna_title}</a></td>
 													<td>${qna.qna_date}</td>
 													<td>${qna.qna_answer}</td>
 												</tr>
-											</c:forEach>
+											</c:forEach> --%>
+											<c:forEach items="${requestScope.qnaList }" var="qna" varStatus="status">
+								<tr class="post">
+								  <%-- <td>${pageMaker.totalCount - ((pageMaker.criteria.page-1) * pageMaker.criteria.perPageNum + status.index) }</td> --%>
+								  <td>${qna.qna_category}</td>
+								  <td><a href="one_get${pageMaker.makeSearch(pageMaker.criteria.page)}&qna_no=${qna.qna_no}">${qna.qna_title}</a></td>
+								  <td>${qna.qna_date}</td>
+								  <td>${qna.qna_answer}</td>
+								</tr>
+							</c:forEach>
 										</c:otherwise>
 									</c:choose>
 									</tbody>
@@ -133,7 +153,7 @@
 									%>
 										<tr>
 											<td>결말해석</td>
-											<td><a href="one_get.do">고질라 쿠키영상 무슨뜻인가요?</a></td>
+											<td><a href="one_get">고질라 쿠키영상 무슨뜻인가요?</a></td>
 											<td>2011/04/25</td>
 											<td>N</td>
 										</tr>
@@ -144,7 +164,7 @@
 									
 								</table>
 
-								<ul class="pagination">
+								<!-- <ul class="pagination">
 									<li class="icon-prev"><a href="#"><i
 											class="ion-ios-arrow-left"></i></a></li>
 									<li class="active"><a href="#">1</a></li>
@@ -156,7 +176,30 @@
 									<li><a href="#">22</a></li>
 									<li class="icon-next"><a href="#"><i
 											class="ion-ios-arrow-right"></i></a></li>
-								</ul>
+								</ul> -->
+								<!-- start | pagination -->
+								<div class="box-footer">
+                        <div class="text-center">
+                            <form id="listPageForm">
+                                <input type="hidden" name="page" value="${pageMaker.criteria.page}">
+                                <input type="hidden" name="perPageNum" value="${pageMaker.criteria.perPageNum}">
+                            </form>
+                            <ul class="pagination">
+                                <c:if test="${pageMaker.prev}">
+                                    <li><a href="${pageMaker.startPage - 1}">이전</a></li>
+                                </c:if>
+                                <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                                    <li <c:out value="${pageMaker.criteria.page == idx ? 'class=active' : ''}"/>>
+                                        <a href="${idx}">${idx}</a>
+                                    </li>
+                                </c:forEach>
+                                <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                                    <li><a href="${pageMaker.endPage + 1}">다음</a></li>
+                                </c:if>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end | pagination -->
 							</div>
 						</div>
 
@@ -166,6 +209,21 @@
 		</div>
 	</div>
 </div>
+<div style="width:1920px; height: 110px;">
+
+</div>
+
+<script>
+$(".pagination li a").on("click", function (event) {
+    event.preventDefault();
+
+    var targetPage = $(this).attr("href");
+    var listPageForm = $("#listPageForm");
+    listPageForm.find("[name='page']").val(targetPage);
+    listPageForm.attr("action", "one_list").attr("method", "get");
+    listPageForm.submit();
+});
+</script>
 <%@ include file="../footer1.jsp"%>
 <%@ include file="../footer2.jsp"%>
 
